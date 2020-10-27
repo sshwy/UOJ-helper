@@ -100,24 +100,6 @@ class UOJ_problem{
         if(!has_std || !has_chk) assert(0);
         if(path.back() != '/') path += "/";
         if(fsystem("mkdir --parents "+path)) exit(1);
-        for(unsigned i=0;i<tests.size(); i++){
-            printf("Test #%d\n",i+1);
-            string fname = path+name+to_string(i+1);
-            if(tests[i].first == 0){
-                FILE * f = fopen((fname+".in").c_str(),"w");
-                fprintf(f,"%s",tests[i].second.c_str());
-                fclose(f);
-            }else {
-                if(fsystem(tests[i].second + " > " + fname + ".in"))assert(0);
-            }
-            if(has_val) if(fsystem(val + " < " + fname + ".in"))assert(0);
-            if(fsystem("{ /usr/bin/time -f \"Test #" + to_string(i+1)
-                        + ": real %es (user %Us sys %Ss)\" " 
-                        + std + " < " + fname + ".in > " 
-                        + fname + ".out; }"
-                        + " 2>> " + path + "runtime.log"))
-                assert(0);
-        }
         for(unsigned i=0;i<samples.size(); i++){
             printf("Sample #%d\n",i+1);
             string fname = path+"ex_"+name+to_string(i+1);
@@ -130,6 +112,24 @@ class UOJ_problem{
             }
             if(has_val) if(fsystem(val + " < " + fname + ".in"))assert(0);
             if(fsystem("{ /usr/bin/time -f \"Sample #" + to_string(i+1) 
+                        + ": real %es (user %Us sys %Ss)\" " 
+                        + std + " < " + fname + ".in > " 
+                        + fname + ".out; }"
+                        + " 2>> " + path + "runtime.log"))
+                assert(0);
+        }
+        for(unsigned i=0;i<tests.size(); i++){
+            printf("Test #%d\n",i+1);
+            string fname = path+name+to_string(i+1);
+            if(tests[i].first == 0){
+                FILE * f = fopen((fname+".in").c_str(),"w");
+                fprintf(f,"%s",tests[i].second.c_str());
+                fclose(f);
+            }else {
+                if(fsystem(tests[i].second + " > " + fname + ".in"))assert(0);
+            }
+            if(has_val) if(fsystem(val + " < " + fname + ".in"))assert(0);
+            if(fsystem("{ /usr/bin/time -f \"Test #" + to_string(i+1)
                         + ": real %es (user %Us sys %Ss)\" " 
                         + std + " < " + fname + ".in > " 
                         + fname + ".out; }"
