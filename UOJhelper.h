@@ -21,7 +21,7 @@ namespace UOJ{
 class UOJ_problem{
     string name, std, val, chk;
     vector< pair<int,string> > tests, samples; // 0: text; 1: script
-    vector< pair<int,int> > subtask;
+    vector< pair<int,int> > subtask, dependence;
     int ol, tl, ml, has_std, has_val, has_chk;
     public:
     UOJ_problem(string _name="prob", int _tl=1, int _ml=256):
@@ -71,6 +71,10 @@ class UOJ_problem{
     }
     void setSubtask(int score){
         subtask.push_back({tests.size(),score});
+    }
+    void addSubtaskDependence(int i,int j){
+        assert(i>j);
+        dependence.push_back({i,j});
     }
     void registerStd(string path){
         std = path, has_std = 1;
@@ -155,6 +159,12 @@ class UOJ_problem{
             for(unsigned i=0;i<subtask.size(); i++){
                 fprintf(config,"subtask_end_%u %d\n",i+1,subtask[i].first);
                 fprintf(config,"subtask_score_%u %d\n",i+1,subtask[i].second);
+            }
+        }
+        if(dependence.size()){
+            for(unsigned i=0;i<dependence.size(); i++){
+                int u = dependence[i].first, v = dependence[i].second;
+                fprintf(config,"subtask_dependence_%d %d\n",u,v);
             }
         }
         fclose(config);
