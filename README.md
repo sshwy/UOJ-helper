@@ -25,6 +25,7 @@
 - `void setMemoryLimit(int)`：设置内存限制（单位MB）。
 - `void setOutputLimit(int)`：设置输出限制（单位KB，默认值64）。
 - `void setSubtask(int score)`：将目前还不属于任何一个子任务的测试点全部打包成一个子任务，该子任务的分值为 `score`。如果你一次都没有调用过这个函数，那么题目默认不使用子任务评测。
+- `void addSubtaskDependence(int i,int j)`：配置子任务依赖，编号为 i 的子任务依赖编号为 j 的子任务。
 - `void regusterStd(string)`：添加 std 的可执行文件的路径（相对路径也可以），用于生成输出。如果你想要把 std 的源代码加到题目配置中，请手动复制。
 - `void regusterValidator(string)`：添加 validator 的可执行文件的路径（相对路径也可以），用于检查读入是否合法。如果你想要把 validator 的源代码加到题目配置中，请手动复制。
 - `void setBuildinChecker(string)`：指定内建 checker。
